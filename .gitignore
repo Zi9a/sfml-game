@@ -1,6 +1,44 @@
-build
-out
-.cache
-.idea
-.vs
-.vscode
+# build directories
+/build/
+/build-*/
+
+# cmake generated garbage
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+install_manifest.txt
+
+# object / binary files
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+*.exe
+*.out
+*.app
+
+# debug symbols
+*.dSYM/
+*.pdb
+
+# editor trash (because people keep committing this somehow)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# mac nonsense
+.DS_Store
+
+# windows nonsense
+Thumbs.db
+
+# logs
+*.log
+
+#cache binaries 
+.cache/
