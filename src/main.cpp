@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -12,6 +13,13 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/WindowEnums.hpp>
 
+#include <array>
+
+template <typename T> class Rectangle {
+public:
+  void drawRectangle(T x, T y) {}
+};
+
 int main() {
   auto window = sf::RenderWindow(sf::VideoMode({1470, 956}),
                                  "CMake SFML Project", sf::Style::Default);
@@ -19,20 +27,17 @@ int main() {
   window.setPosition({0, 0});
 
   auto [screen_width, screen_height] = window.getSize();
+  sf::RectangleShape something{{10, 10}};
 
-  sf::CircleShape circle{100.f, 5};
-  auto bounds = circle.getLocalBounds();
-  circle.setOrigin({bounds.size.x, bounds.size.y});
+  std::array<sf::RectangleShape, 10> rectangle{
+      sf::RectangleShape{{250, 250}}, sf::RectangleShape{{250, 250}},
+      sf::RectangleShape{{250, 250}}, sf::RectangleShape{{250, 250}},
+      sf::RectangleShape{{250, 250}}, sf::RectangleShape{{250, 250}},
+      sf::RectangleShape{{250, 250}}, sf::RectangleShape{{250, 250}},
+      sf::RectangleShape{{250, 250}}, sf::RectangleShape{{250, 250}},
+  };
 
-  sf::CircleShape circle2{circle};
-  auto bounds2 = circle2.getLocalBounds();
-  circle2.setOrigin({bounds2.size.x, bounds2.size.y});
-
-  sf::CircleShape circle3{circle};
-  auto bounds3 = circle3.getLocalBounds();
-  circle3.setOrigin({bounds3.size.x, bounds3.size.y});
-
-  float dt = 0.01;
+  float dt{0.5};
 
   while (window.isOpen()) {
     while (const std::optional event = window.pollEvent()) {
@@ -46,33 +51,26 @@ int main() {
       }
     }
 
-    // this is bad code
-    circle.setFillColor(sf::Color::Black);
-    circle.setOutlineColor(sf::Color::Red);
-    circle.setOutlineThickness(-10.f);
-    circle.setPosition({(screen_width + dt) / (2.f), screen_height / 2.f});
-
-    circle2.setFillColor(sf::Color::Black);
-    circle2.setOutlineColor(sf::Color::Green);
-    circle2.setOutlineThickness(-10.f);
-    circle2.setPosition({(screen_width) / 2.f, screen_height / 2.f});
-
-    circle3.setFillColor(sf::Color::Black);
-    circle3.setOutlineColor(sf::Color::Blue);
-    circle3.setOutlineThickness(-10.f);
-    circle3.setPosition({(screen_width - dt) / (2.f), screen_height / 2.f});
-
-    circle.rotate(sf::degrees(dt / 100));
-    circle2.rotate(sf::degrees(dt / 100));
-    circle3.rotate(sf::degrees(dt / 100));
-
-    dt += 0.05;
-
     window.clear();
 
-    window.draw(circle);
-    window.draw(circle2);
-    window.draw(circle3);
+    float dx{0.1};
+    float dy{0.1};
+
+    for (auto idx{0}; idx < std::size(rectangle); ++idx) {
+      rectangle[idx].move({dx, dt});
+      dx += 0.1;
+      dy += 0.1;
+
+      if (idx % 2 == 0) {
+        rectangle[idx].setFillColor(sf::Color::Yellow);
+      } else if (idx % 5 == 0) {
+        rectangle[idx].setFillColor(sf::Color::Red);
+      } else {
+        rectangle[idx].setFillColor(sf::Color::Green);
+      }
+      rectangle[idx].setPosition({idx * 100 + 100.f, 200});
+      window.draw(rectangle[idx]);
+    }
 
     window.display();
   }
