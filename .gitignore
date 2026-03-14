@@ -31,7 +31,7 @@ install_manifest.txt
 *.swp
 *.swo
 
-# mac nonsense
+# mac generated
 .DS_Store
 
 # windows nonsense
@@ -40,5 +40,8 @@ Thumbs.db
 # logs
 *.log
 
-#cache binaries 
+# cache binaries 
 .cache/
+
+# not to be tracked sfml directories
+_deps/
