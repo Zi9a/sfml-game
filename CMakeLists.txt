@@ -16,10 +16,5 @@ FetchContent_MakeAvailable(SFML)
 # target_compile_features(main PRIVATE cxx_std_17)
 # target_link_libraries(main PRIVATE SFML::Graphics SFML::Window SFML::System )
 
-set(SOURCES
-  src/main.cpp
-  src/Game.cpp
-)
-
-add_executable(MyApp MACOSX_BUNDLE ${SOURCES})
-target_link_libraries(MyApp SFML::Graphics SFML::Window SFML::System )
+add_executable(MyApp MACOSX_BUNDLE src/main.cpp src/Game.cpp src/Block.cpp)
+target_link_libraries(MyApp SFML::Graphics SFML::Window SFML::System)

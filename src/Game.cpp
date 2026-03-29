@@ -1,8 +1,8 @@
-#pragma once
-
 #include "Game.h"
+#include "Block.h"
 #include "configuration.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 
 Game::Game()
     : window{sf::RenderWindow(conf::fitToScreen, conf::title,
@@ -10,9 +10,14 @@ Game::Game()
 
 void Game::run() {
   this->initWindow();
+  Block block;
 
   while (window.isOpen()) {
     this->handleEvent();
+
+    window.clear();
+    this->drawObject();
+    window.display();
   }
 }
 
@@ -31,4 +36,17 @@ void Game::handleEvent() {
       }
     }
   }
+}
+
+void Game::drawObject() {
+  block.position.x += (block.velocity_x * block.dt);
+  block.position.y += (block.velocity_y * block.dt);
+
+  block.rectangle.setSize({200, 200});
+  block.rectangle.setPosition({0, 0});
+  block.rectangle.setFillColor(sf::Color::Cyan);
+
+  block.rectangle.move(block.position);
+  block.bounceInside();
+  window.draw(block.rectangle);
 }

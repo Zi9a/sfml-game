@@ -14,6 +14,15 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/WindowEnums.hpp>
 
+#include "Game.h"
+
+int main() {
+  Game game{};
+  game.run();
+
+  return 0;
+}
+
 /////////////////
 // auto window = sf::RenderWindow(sf::VideoMode({1470, 956}), "CMake SFML
 // Project",
@@ -86,12 +95,3 @@
 ///////// ////// ////// //////
 ///////// ////// ////// //////
 ///////// ////// ////// //////
-
-#include "Game.h"
-
-int main() {
-  Game game{};
-  game.run();
-
-  return 0;
-}

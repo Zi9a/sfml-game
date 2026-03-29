@@ -6,15 +6,15 @@
 #include <cstdint>
 namespace conf {
 
-uint32_t maxFrameRate{144};
-sf::Vector2<int> windowSize{1470, 956};
-sf::Vector2<int> windowPosition{0, 0};
-sf::Vector2f windowSize_f = static_cast<sf::Vector2f>(windowSize);
+constexpr uint32_t maxFrameRate{144};
+constexpr sf::Vector2<int> windowSize{1470, 956};
+constexpr sf::Vector2<int> windowPosition{0, 0};
+constexpr sf::Vector2f windowSize_f = static_cast<sf::Vector2f>(windowSize);
 
 // default window
-auto defaultWindow{sf::RenderWindow(sf::VideoMode({1470, 956}),
-                                    "Bouncing Block", sf::Style::Default)};
+// const auto defaultWindow{sf::RenderWindow( sf::VideoMode({1470, 956}),
+// "Bouncing Block", sf::Style::Default) };
 
-sf::VideoMode fitToScreen{sf::VideoMode({1470, 956})};
-const char *title{"Bouncing Block"};
+const sf::VideoMode fitToScreen{{1470, 956}};
+const char *const title{"something"};
 } // namespace conf
