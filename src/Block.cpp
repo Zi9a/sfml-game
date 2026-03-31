@@ -1,20 +1,20 @@
 #include "Block.h"
-#include "configuration.h"
+#include <SFML/System/Vector2.hpp>
 
-void Block::bounceInside() {
-  auto rectangleDimension{rectangle.getSize()};
+void Block::bounceInside(const sf::Vector2f &windowSize) {
+  position = rectangle.getPosition();
+  rectangleDimension = rectangle.getSize();
 
-  if (position.x + rectangleDimension.x > conf::windowSize.x) {
-    velocity_x = -velocity_x;
+  if (position.x + rectangleDimension.x > windowSize.x) {
+    velocity.x = -velocity.x;
   }
-  if (position.y + rectangleDimension.y > conf::windowSize.y) {
-    velocity_y = -velocity_y;
+  if (position.y + rectangleDimension.y > windowSize.y) {
+    velocity.y = -velocity.y;
   }
-
   if (position.x < 0.f) {
-    velocity_x = -velocity_x;
+    velocity.x = -velocity.x;
   }
   if (position.y < 0.f) {
-    velocity_y = -velocity_y;
+    velocity.y = -velocity.y;
   }
 }

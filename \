@@ -1,8 +1,6 @@
 #include "Game.h"
 #include "Block.h"
 #include "configuration.h"
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -18,7 +16,7 @@ void Game::run() {
     this->handleEvent();
 
     window.clear();
-    drawObject2();
+    this->drawObject();
     window.display();
   }
 }
@@ -41,25 +39,13 @@ void Game::handleEvent() {
 }
 
 void Game::drawObject() {
-  sf::Vector2f windowSize{window.getSize()};
+  block.position.x += (block.velocity_x * block.dt);
+  block.position.y += (block.velocity_y * block.dt);
 
-  block.rectangle.setFillColor(sf::Color::Yellow);
   block.rectangle.setSize({200, 200});
-  block.rectangle.move(
-      {block.velocity.x * block.deltaTime, block.velocity.y * block.deltaTime});
+  block.rectangle.setFillColor(sf::Color::Cyan);
 
-  block.bounceInside(windowSize);
+  block.rectangle.move(block.position);
+  block.bounceInside();
   window.draw(block.rectangle);
-}
-
-void Game::drawObject2() {
-  sf::CircleShape circle{};
-  circle.setFillColor(sf::Color::Cyan);
-  circle.setRadius(100);
-  circle.setPosition({0, 0});
-  sf::Vector2f velocity{100, 100};
-  float deltaTime{0.01};
-
-  circle.move({velocity.x * deltaTime, velocity.y * deltaTime});
-  window.draw(circle);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Block.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 
 class Game {
 private:
@@ -16,4 +17,5 @@ public:
   void handleEvent();
 
   void drawObject();
+  void drawObject2();
 };

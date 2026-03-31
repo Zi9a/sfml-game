@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <cstdint>
+
 namespace conf {
 
 constexpr uint32_t maxFrameRate{144};
