@@ -4,7 +4,9 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Angle.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <cstddef>
 
 Game::Game()
     : window{sf::RenderWindow(conf::fitToScreen, conf::title,
@@ -18,7 +20,7 @@ void Game::run() {
     this->handleEvent();
 
     window.clear();
-    drawObject2();
+    drawObjectCircle();
     window.display();
   }
 }
@@ -40,7 +42,7 @@ void Game::handleEvent() {
   }
 }
 
-void Game::drawObject() {
+void Game::drawObjectSquare() {
   sf::Vector2f windowSize{window.getSize()};
 
   block.rectangle.setFillColor(sf::Color::Yellow);
@@ -52,14 +54,35 @@ void Game::drawObject() {
   window.draw(block.rectangle);
 }
 
-void Game::drawObject2() {
-  sf::CircleShape circle{};
-  circle.setFillColor(sf::Color::Cyan);
-  circle.setRadius(100);
-  circle.setPosition({0, 0});
-  sf::Vector2f velocity{100, 100};
-  float deltaTime{0.01};
+void Game::drawObjectCircle() {
+  static sf::CircleShape circle{100, 6};
 
-  circle.move({velocity.x * deltaTime, velocity.y * deltaTime});
+  circle.setOrigin({0, 0});
+  float deltaTime{0.05};
+
+  static sf::Vector2f velocity{1000.f, 1000.f / 2};
+  sf::Vector2f position{circle.getPosition()};
+  float radius{circle.getRadius()};
+
+  if (position.x + 2 * radius > window.getSize().x) {
+    velocity.x = -velocity.x;
+    circle.setFillColor(sf::Color::Red);
+  }
+
+  if (position.y + 2 * radius > window.getSize().y) {
+    velocity.y = -velocity.y;
+    circle.setFillColor(sf::Color::Green);
+  }
+
+  if (position.x < 0.f) {
+    velocity.x = -velocity.x;
+    circle.setFillColor(sf::Color::Blue);
+  }
+  if (position.y < 0.f) {
+    velocity.y = -velocity.y;
+    circle.setFillColor(sf::Color::Cyan);
+  }
+
+  circle.move({velocity * deltaTime});
   window.draw(circle);
 }

@@ -16,6 +16,6 @@ public:
   void initWindow();
   void handleEvent();
 
-  void drawObject();
-  void drawObject2();
+  void drawObjectSquare();
+  void drawObjectCircle();
 };
