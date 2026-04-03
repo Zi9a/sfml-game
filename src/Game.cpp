@@ -3,10 +3,14 @@
 #include "configuration.h"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/ConvexShape.hpp>
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Angle.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <algorithm>
 #include <cstddef>
+#include <iterator>
 
 Game::Game()
     : window{sf::RenderWindow(conf::fitToScreen, conf::title,
@@ -55,34 +59,42 @@ void Game::drawObjectSquare() {
 }
 
 void Game::drawObjectCircle() {
-  static sf::CircleShape circle{100, 6};
+  constexpr int numberOfCircle{100};
+  static sf::CircleShape circle[numberOfCircle];
+  static sf::Vector2f velocity[numberOfCircle]{};
+  static sf::Vector2f position{100, 100};
 
-  circle.setOrigin({0, 0});
-  float deltaTime{0.05};
-
-  static sf::Vector2f velocity{1000.f, 1000.f / 2};
-  sf::Vector2f position{circle.getPosition()};
-  float radius{circle.getRadius()};
-
-  if (position.x + 2 * radius > window.getSize().x) {
-    velocity.x = -velocity.x;
-    circle.setFillColor(sf::Color::Red);
+  static bool once{true};
+  if (once) {
+    for (int i{}; i < numberOfCircle; ++i) {
+      velocity[i] = {1.f, 1.f};
+    }
+    once = false;
   }
 
-  if (position.y + 2 * radius > window.getSize().y) {
-    velocity.y = -velocity.y;
-    circle.setFillColor(sf::Color::Green);
-  }
+  float radius{2};
 
-  if (position.x < 0.f) {
-    velocity.x = -velocity.x;
-    circle.setFillColor(sf::Color::Blue);
-  }
-  if (position.y < 0.f) {
-    velocity.y = -velocity.y;
-    circle.setFillColor(sf::Color::Cyan);
-  }
+  for (int i{0}; i < std::size(circle); ++i) {
+    position = circle[i].getPosition();
+    circle[i].setRadius(radius);
+    circle[i].setRadius(radius);
+    circle[i].setFillColor(sf::Color::Red);
 
-  circle.move({velocity * deltaTime});
-  window.draw(circle);
+    if (position.x + 2 * radius > window.getSize().x) {
+      velocity[i].x = -velocity[i].x;
+    }
+    if (position.y + 2 * radius > window.getSize().y) {
+      velocity[i].y = -velocity[i].y;
+    }
+    if (position.x < 0.f) {
+      velocity[i].x = -velocity[i].x;
+    }
+    if (position.y < 0.f) {
+      velocity[i].y = -velocity[i].y;
+    }
+
+    float factor{static_cast<float>(i % 1 + i / 100.f)};
+    circle[i].move({velocity[i].x * factor, velocity[i].y * factor});
+    window.draw(circle[i]);
+  }
 }
