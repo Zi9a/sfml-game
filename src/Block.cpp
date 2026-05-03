@@ -1,20 +1,46 @@
 #include "Block.h"
+#include "configuration.h"
 #include <SFML/System/Vector2.hpp>
 
-void Block::bounceInside(const sf::Vector2f &windowSize) {
-  position = rectangle.getPosition();
-  rectangleDimension = rectangle.getSize();
 
-  if (position.x + rectangleDimension.x > windowSize.x) {
-    velocity.x = -velocity.x;
+void Block::boundsCheck(sf::RenderWindow& window) {
+  float circleRadius{circle.getRadius()};
+  circlePosition = circle.getPosition();
+  sf::Vector2f windowBounds{window.getSize()};
+
+  // right
+  if (circlePosition.x + circleRadius * 2 > windowBounds.x) {
+    circlePosition.x = windowBounds.x - circleRadius * 2;
+    circleVelocity.x = -circleVelocity.x;
   }
-  if (position.y + rectangleDimension.y > windowSize.y) {
-    velocity.y = -velocity.y;
+  // down
+  if (circlePosition.y + circleRadius * 2 > windowBounds.y) {
+    circlePosition.y = windowBounds.y - circleRadius * 2;
+    circleVelocity.y = -circleVelocity.y;
   }
-  if (position.x < 0.f) {
-    velocity.x = -velocity.x;
+
+  // left
+  if(circlePosition.x < 0) {
+    circleVelocity.x = -circleVelocity.x;
   }
-  if (position.y < 0.f) {
-    velocity.y = -velocity.y;
+
+  // up
+  if(circlePosition.y < 0) {
+    circleVelocity.y = -circleVelocity.y;
   }
+
+  circle.setPosition(circlePosition);
+}
+
+void Block::move() {
+  circleVelocity.y += conf::gravityConstant * conf::deltaTime;
+  circleVelocity.x *= 0.999;
+  circleVelocity.y *= 0.999;
+
+  sf::Vector2f nextPosition = {
+    circleVelocity.x * conf::deltaTime,
+    circleVelocity.y * conf::deltaTime
+  };
+
+  circle.move(nextPosition);
 }

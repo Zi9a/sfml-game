@@ -1,15 +1,29 @@
 #pragma once
 
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
 class Block {
+private: 
+  sf::CircleShape circle{};
+  sf::Vector2f circleVelocity{};
+  sf::Vector2f circlePosition{};
 public:
-  sf::RectangleShape rectangle{};
-  sf::Vector2f velocity{200, 200};
-  sf::Vector2f position{0, 100};
-  sf::Vector2f rectangleDimension{rectangle.getSize()};
-  float deltaTime{0.01};
-  void bounceInside(const sf::Vector2f &);
+  Block(float radius, sf::Vector2f velocity, sf::Vector2f position, sf::Color color)
+  : circle{radius}
+  , circleVelocity{velocity}
+  , circlePosition{position}
+  {
+    circle.setPosition(position);
+    circle.setFillColor(color);
+  }
+
+  void draw(sf::RenderWindow& window) const {
+    window.draw(circle);
+  }
+  void boundsCheck(sf::RenderWindow&);
+  void move();
 };

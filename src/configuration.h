@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
@@ -18,4 +19,13 @@ constexpr sf::Vector2f windowSize_f = static_cast<sf::Vector2f>(windowSize);
 
 const sf::VideoMode fitToScreen{{1470, 956}};
 const char *const title{"something"};
+
+constexpr sf::Vector2f circleVelocity{100, 100};
+constexpr sf::Vector2f circlePosition{0, static_cast<float>(windowSize.y) / 2};
+constexpr sf::Color circleColor{sf::Color::Yellow};
+constexpr float radius{10};
+
+ constexpr float deltaTime{0.07};
+
+constexpr float gravityConstant{50};
 } // namespace conf
