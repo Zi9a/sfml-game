@@ -5,16 +5,12 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <vector>
 
 class Game {
 private:
   sf::RenderWindow window{};
-  Block block{
-    conf::radius,
-    conf::circleVelocity,
-    conf::circlePosition,
-    conf::circleColor
-  };
+  std::vector<Block> block{conf::numberOfBalls};
 
 public:
   Game();
@@ -25,5 +21,6 @@ public:
   void handleEvent();
   void displayObject();
 
-  void vertex();
+  void initBlock();
+  void vertex(Block&);
 };

@@ -28,4 +28,6 @@ constexpr float radius{10};
  constexpr float deltaTime{0.07};
 
 constexpr float gravityConstant{50};
+
+constexpr int numberOfBalls{10};
 } // namespace conf

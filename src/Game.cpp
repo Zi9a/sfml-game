@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Block.h"
 #include "configuration.h"
+#include "random.h"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/ConvexShape.hpp>
@@ -17,12 +18,15 @@ Game::Game()
 
 void Game::run() {
   this->initWindow();
+  this->initBlock();
 
   while (window.isOpen()) {
     this->handleEvent();
 
     window.clear();
-    this->displayObject();
+    for (auto &blocks : block) {
+      vertex(blocks);
+    }
     window.display();
   }
 }
@@ -45,11 +49,23 @@ void Game::handleEvent() {
 }
 
 void Game::displayObject() {
+  // block.move();
+  // block.boundsCheck(window);
+  // block.draw(window);
+}
+
+void Game::vertex(Block& block) {
   block.move();
   block.boundsCheck(window);
   block.draw(window);
 }
 
-
-void Game::vertex() {
+void Game::initBlock() {
+  for (auto& blocks : block) {
+   sf::Vector2f position{
+      static_cast<float>(Random::get(0, window.getSize().x)),
+      static_cast<float>(Random::get(0, window.getSize().y / 2))
+    };
+    blocks.setBlock(conf::radius, conf::circleVelocity, position, conf::circleColor);
+  }
 }
