@@ -2,9 +2,11 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <cstdint>
+#include <string_view>
 
 namespace conf {
 
@@ -22,12 +24,14 @@ const char *const title{"something"};
 
 constexpr sf::Vector2f circleVelocity{100, 100};
 constexpr sf::Vector2f circlePosition{0, static_cast<float>(windowSize.y) / 2};
-constexpr sf::Color circleColor{sf::Color::Yellow};
+constexpr sf::Color circleColor{sf::Color::White};
 constexpr float radius{10};
 
- constexpr float deltaTime{0.07};
+constexpr float deltaTime{0.07};
 
-constexpr float gravityConstant{50};
+constexpr float gravityConstant{100};
 
 constexpr int numberOfBalls{10};
+constexpr std::string_view ballTexturePath{"/Users/ziyadhandu/code/sfml-game/res/img/ball-texture.png"};
+
 } // namespace conf
