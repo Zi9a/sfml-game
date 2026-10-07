@@ -1,6 +1,24 @@
-build
-out
-.cache
-.idea
-.vs
-.vscode
+# macOS
+
+.DS_Store
+
+# CMake build files
+
+build/
+CMakeCache.txt
+CMakeFiles/
+
+# CMake-generated dependency/cache files
+
+_deps/
+.cache/
+
+# Generated documentation
+
+doxygen.txt
+html/
+
+# Generated files/directories
+
+*.log
+*.tmp
